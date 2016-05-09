@@ -1,0 +1,48 @@
+#include <LiquidCrystal.h>
+  LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+  int input_boton = 0;
+  int boton_estado;
+  long valorRandom1;
+  long valorRandom2;
+  int valor_sensor;
+  void setup(){
+  randomSeed(analogRead(A5));
+  valorRandom1 = random(0,11);
+  valorRandom2 = random(0,11);
+  pinMode(input_boton,INPUT);
+  
+  lcd.begin(16,2);
+  lcd.print("Sumas:");
+
+  }
+  void loop(){
+    boton_estado = digitalRead(input_boton);
+    valor_sensor = analogRead(A0);
+    int valor_input = valor_sensor/50;
+    int resultado = valorRandom1 + valorRandom2;
+    lcd.setCursor(0,1);
+    lcd.print(valorRandom1);
+    lcd.print(" + ");
+    lcd.print(valorRandom2);
+    lcd.print(" = ");
+    lcd.print(valor_input);
+    lcd.print("   ");
+    if(boton_estado == LOW){
+       if(valor_input == resultado){
+          lcd.setCursor(0,0);
+          lcd.print("Correcto");
+          lcd.print("        ");
+          valorRandom1 = random(0,11);
+          valorRandom2 = random(0,11);
+          delay(1000);
+          lcd.setCursor(0,0);
+          lcd.print("Suma:");
+          lcd.print("           ");
+       }else{
+          lcd.setCursor(0,0);
+          lcd.print("Prueba otra vez");
+          lcd.print("   ");
+       }
+       
+    }
+  }
